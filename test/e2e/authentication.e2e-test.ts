@@ -17,7 +17,15 @@ describe("Authentication Flow REST", () => {
 	let authSessionToken: string
 
 	beforeAll(done => {
-		Axios({
+		done()
+	})
+
+	afterAll(done => {
+		done()
+	})
+
+	test("Init the authenctication", async done => {
+		let createAccountResponse = await Axios({
 			url: `http://localhost:${port}/accounts`,
 			method: "post",
 			headers: {
@@ -25,26 +33,15 @@ describe("Authentication Flow REST", () => {
 			},
 			data: fakeAccount,
 		})
-		.then((response) => {
-			let data = response.data
 
-			expect(Object.keys(data)).toHaveLength(10)
+		expect(Object.keys(createAccountResponse.data)).toHaveLength(10)
 
-			expect(data).toHaveProperty("id")
-			expect(data).toHaveProperty("kind")
+		expect(createAccountResponse.data).toHaveProperty("id")
+		expect(createAccountResponse.data).toHaveProperty("kind")
 
-			expect(data.kind).toStrictEqual("accounts.account")
+		expect(createAccountResponse.data.kind).toStrictEqual("accounts.account")
 
-			done()
-		})
-	})
-
-	afterAll(done => {
-		done()
-	})
-
-	test("Init the authenctication", done => {
-		Axios({
+		let initAuthResponse = await Axios({
 			url: `http://localhost:${port}/authentication/init`,
 			method: "post",
 			headers: {
@@ -54,30 +51,23 @@ describe("Authentication Flow REST", () => {
 				flow_type: "authorization_code",
 			},
 		})
-		.then((response) => {
-			let data = response.data
 
-			expect(Object.keys(data)).toHaveLength(4)
+		expect(Object.keys(initAuthResponse.data)).toHaveLength(4)
 
-			expect(data).toHaveProperty("authenticated")
-			expect(data).toHaveProperty("auth_session_token")
-			expect(data).toHaveProperty("valid_until")
-			expect(data).toHaveProperty("next_steps")
+		expect(initAuthResponse.data).toHaveProperty("authenticated")
+		expect(initAuthResponse.data).toHaveProperty("auth_session_token")
+		expect(initAuthResponse.data).toHaveProperty("valid_until")
+		expect(initAuthResponse.data).toHaveProperty("next_steps")
 
-			expect(data.authenticated).toStrictEqual(false)
-			expect(data.next_steps).toHaveLength(1)
-			expect(data.next_steps[0]).toHaveProperty("step")
-			expect(data.next_steps[0]).toHaveProperty("url")
-			expect(data.next_steps[0].step).toStrictEqual("IDENTIFIER")
+		expect(initAuthResponse.data.authenticated).toStrictEqual(false)
+		expect(initAuthResponse.data.next_steps).toHaveLength(1)
+		expect(initAuthResponse.data.next_steps[0]).toHaveProperty("step")
+		expect(initAuthResponse.data.next_steps[0]).toHaveProperty("url")
+		expect(initAuthResponse.data.next_steps[0].step).toStrictEqual("IDENTIFIER")
 
-			authSessionToken = data.auth_session_token
+		authSessionToken = initAuthResponse.data.auth_session_token
 
-			done()
-		})
-	})
-
-	test("Lookup the account", done => {
-		Axios({
+		let lookupAccountResponse = await Axios({
 			url: `http://localhost:${port}/authentication/lookup`,
 			method: "post",
 			headers: {
@@ -89,27 +79,20 @@ describe("Authentication Flow REST", () => {
 				identifier: fakeAccount.identifier,
 			},
 		})
-		.then((response) => {
-			let data = response.data
 
-			expect(Object.keys(data)).toHaveLength(3)
+		expect(Object.keys(lookupAccountResponse.data)).toHaveLength(3)
 
-			expect(data).toHaveProperty("authenticated")
-			expect(data).toHaveProperty("next_steps")
-			expect(data).toHaveProperty("account")
+		expect(lookupAccountResponse.data).toHaveProperty("authenticated")
+		expect(lookupAccountResponse.data).toHaveProperty("next_steps")
+		expect(lookupAccountResponse.data).toHaveProperty("account")
 
-			expect(data.authenticated).toStrictEqual(false)
-			expect(data.next_steps).toHaveLength(1)
-			expect(data.next_steps[0]).toHaveProperty("step")
-			expect(data.next_steps[0]).toHaveProperty("url")
-			expect(data.next_steps[0].step).toStrictEqual("PASSWORD")
+		expect(lookupAccountResponse.data.authenticated).toStrictEqual(false)
+		expect(lookupAccountResponse.data.next_steps).toHaveLength(1)
+		expect(lookupAccountResponse.data.next_steps[0]).toHaveProperty("step")
+		expect(lookupAccountResponse.data.next_steps[0]).toHaveProperty("url")
+		expect(lookupAccountResponse.data.next_steps[0].step).toStrictEqual("PASSWORD")
 
-			done()
-		})
-	})
-
-	test("Challenge the password", done => {
-		Axios({
+		let challengePasswordResponse = await Axios({
 			url: `http://localhost:${port}/authentication/challenge`,
 			method: "post",
 			headers: {
@@ -121,20 +104,17 @@ describe("Authentication Flow REST", () => {
 				password: fakeAccount.password,
 			},
 		})
-		.then((response) => {
-			let data = response.data
 
-			expect(Object.keys(data)).toHaveLength(3)
+		expect(Object.keys(challengePasswordResponse.data)).toHaveLength(3)
 
-			expect(data).toHaveProperty("authenticated")
-			expect(data).toHaveProperty("flow_type")
-			expect(data).toHaveProperty("code")
+		expect(challengePasswordResponse.data).toHaveProperty("authenticated")
+		expect(challengePasswordResponse.data).toHaveProperty("flow_type")
+		expect(challengePasswordResponse.data).toHaveProperty("code")
 
-			expect(data.authenticated).toStrictEqual(true)
-			expect(data.flow_type).toStrictEqual("authorization_code")
-			expect(typeof data.code === "string").toBeTruthy()
+		expect(challengePasswordResponse.data.authenticated).toStrictEqual(true)
+		expect(challengePasswordResponse.data.flow_type).toStrictEqual("authorization_code")
+		expect(typeof challengePasswordResponse.data.code === "string").toBeTruthy()
 
-			done()
-		})
+		done()
 	})
 })

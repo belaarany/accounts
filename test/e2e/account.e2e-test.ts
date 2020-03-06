@@ -24,8 +24,8 @@ describe("Accounts REST", () => {
 		done()
 	})
 
-	test("Create an account", done => {
-		Axios({
+	test("Create an account", async done => {
+		let postResponse = await Axios({
 			url: `http://localhost:${port}/accounts`,
 			method: "post",
 			headers: {
@@ -33,115 +33,98 @@ describe("Accounts REST", () => {
 			},
 			data: fakeAccount,
 		})
-		.then((response) => {
-			let data = response.data
 
-			expect(Object.keys(data)).toHaveLength(10)
+		expect(Object.keys(postResponse.data)).toHaveLength(10)
 
-			expect(data).toHaveProperty("id")
-			expect(data).toHaveProperty("kind")
-			expect(data).toHaveProperty("etag")
-			expect(data).toHaveProperty("name")
-			expect(data).toHaveProperty("identifier")
-			expect(data).toHaveProperty("email")
-			expect(data).toHaveProperty("first_name")
-			expect(data).toHaveProperty("last_name")
-			expect(data).toHaveProperty("created_at")
-			expect(data).toHaveProperty("updated_at")
+		expect(postResponse.data).toHaveProperty("id")
+		expect(postResponse.data).toHaveProperty("kind")
+		expect(postResponse.data).toHaveProperty("etag")
+		expect(postResponse.data).toHaveProperty("name")
+		expect(postResponse.data).toHaveProperty("identifier")
+		expect(postResponse.data).toHaveProperty("email")
+		expect(postResponse.data).toHaveProperty("first_name")
+		expect(postResponse.data).toHaveProperty("last_name")
+		expect(postResponse.data).toHaveProperty("created_at")
+		expect(postResponse.data).toHaveProperty("updated_at")
 
-			expect(data.kind).toStrictEqual("accounts.account")
-			expect(data.identifier).toStrictEqual(fakeAccount.identifier)
-			expect(data.email).toStrictEqual(fakeAccount.email)
-			expect(data.first_name).toStrictEqual(fakeAccount.first_name)
-			expect(data.last_name).toStrictEqual(fakeAccount.last_name)
+		expect(postResponse.data.kind).toStrictEqual("accounts.account")
+		expect(postResponse.data.identifier).toStrictEqual(fakeAccount.identifier)
+		expect(postResponse.data.email).toStrictEqual(fakeAccount.email)
+		expect(postResponse.data.first_name).toStrictEqual(fakeAccount.first_name)
+		expect(postResponse.data.last_name).toStrictEqual(fakeAccount.last_name)
 
-			lastCreatedAccountId = data.id
-
-			done()
-		})
-	})
-
-	test("Fetch the previously created account", done => {
-		Axios({
+		lastCreatedAccountId = postResponse.data.id
+		
+		let getResponse = await Axios({
 			url: `http://localhost:${port}/accounts/${lastCreatedAccountId}`,
 			method: "get",
 			headers: {
 				"Authorization": `Bearer randomstring`
 			},
 		})
-		.then((response) => {
-			let data = response.data
+		
+		expect(Object.keys(getResponse.data)).toHaveLength(10)
 
-			expect(Object.keys(data)).toHaveLength(10)
+		expect(getResponse.data).toHaveProperty("id")
+		expect(getResponse.data).toHaveProperty("kind")
+		expect(getResponse.data).toHaveProperty("etag")
+		expect(getResponse.data).toHaveProperty("name")
+		expect(getResponse.data).toHaveProperty("identifier")
+		expect(getResponse.data).toHaveProperty("email")
+		expect(getResponse.data).toHaveProperty("first_name")
+		expect(getResponse.data).toHaveProperty("last_name")
+		expect(getResponse.data).toHaveProperty("created_at")
+		expect(getResponse.data).toHaveProperty("updated_at")
 
-			expect(data).toHaveProperty("id")
-			expect(data).toHaveProperty("kind")
-			expect(data).toHaveProperty("etag")
-			expect(data).toHaveProperty("name")
-			expect(data).toHaveProperty("identifier")
-			expect(data).toHaveProperty("email")
-			expect(data).toHaveProperty("first_name")
-			expect(data).toHaveProperty("last_name")
-			expect(data).toHaveProperty("created_at")
-			expect(data).toHaveProperty("updated_at")
-
-			expect(data.kind).toStrictEqual("accounts.account")
-			expect(data.identifier).toStrictEqual(fakeAccount.identifier)
-			expect(data.email).toStrictEqual(fakeAccount.email)
-			expect(data.first_name).toStrictEqual(fakeAccount.first_name)
-			expect(data.last_name).toStrictEqual(fakeAccount.last_name)
-
-			done()
-		})
-	})
-
-	test("Fetch all the accounts and find the previously created one", done => {
-		Axios({
+		expect(getResponse.data.kind).toStrictEqual("accounts.account")
+		expect(getResponse.data.identifier).toStrictEqual(fakeAccount.identifier)
+		expect(getResponse.data.email).toStrictEqual(fakeAccount.email)
+		expect(getResponse.data.first_name).toStrictEqual(fakeAccount.first_name)
+		expect(getResponse.data.last_name).toStrictEqual(fakeAccount.last_name)
+		
+		let getAllResponse = await Axios({
 			url: `http://localhost:${port}/accounts`,
 			method: "get",
 			headers: {
 				"Authorization": `Bearer randomstring`
 			},
 		})
-		.then((response) => {
-			let data = response.data
 
-			expect(Object.keys(data)).toHaveLength(3)
+		expect(Object.keys(getAllResponse.data)).toHaveLength(3)
 
-			expect(data).toHaveProperty("kind")
-			expect(data).toHaveProperty("etag")
-			expect(data).toHaveProperty("collection")
+		expect(getAllResponse.data).toHaveProperty("kind")
+		expect(getAllResponse.data).toHaveProperty("etag")
+		expect(getAllResponse.data).toHaveProperty("collection")
 
-			expect(data.kind).toStrictEqual("accounts.accountList")
+		expect(getAllResponse.data.kind).toStrictEqual("accounts.accountList")
 
-			let collection = data.collection
+		let collection = getAllResponse.data.collection
 
-			expect(Array.isArray(collection)).toBeTruthy()
-			expect(collection.length).toBeGreaterThanOrEqual(1)
-			
-			let account = collection.find(_account => _account.id === lastCreatedAccountId)
+		expect(Array.isArray(collection)).toBeTruthy()
+		expect(collection.length).toBeGreaterThanOrEqual(1)
+		
+		let account = collection.find(_account => _account.id === lastCreatedAccountId)
 
-			expect(account).not.toEqual(undefined)
-			expect(Object.keys(account)).toHaveLength(10)
+		expect(account).not.toEqual(undefined)
+		expect(Object.keys(account)).toHaveLength(10)
 
-			expect(account).toHaveProperty("id")
-			expect(account).toHaveProperty("kind")
-			expect(account).toHaveProperty("etag")
-			expect(account).toHaveProperty("name")
-			expect(account).toHaveProperty("identifier")
-			expect(account).toHaveProperty("email")
-			expect(account).toHaveProperty("first_name")
-			expect(account).toHaveProperty("last_name")
-			expect(account).toHaveProperty("created_at")
-			expect(account).toHaveProperty("updated_at")
+		expect(account).toHaveProperty("id")
+		expect(account).toHaveProperty("kind")
+		expect(account).toHaveProperty("etag")
+		expect(account).toHaveProperty("name")
+		expect(account).toHaveProperty("identifier")
+		expect(account).toHaveProperty("email")
+		expect(account).toHaveProperty("first_name")
+		expect(account).toHaveProperty("last_name")
+		expect(account).toHaveProperty("created_at")
+		expect(account).toHaveProperty("updated_at")
 
-			expect(account.kind).toStrictEqual("accounts.account")
-			expect(account.identifier).toStrictEqual(fakeAccount.identifier)
-			expect(account.email).toStrictEqual(fakeAccount.email)
-			expect(account.first_name).toStrictEqual(fakeAccount.first_name)
-			expect(account.last_name).toStrictEqual(fakeAccount.last_name)
+		expect(account.kind).toStrictEqual("accounts.account")
+		expect(account.identifier).toStrictEqual(fakeAccount.identifier)
+		expect(account.email).toStrictEqual(fakeAccount.email)
+		expect(account.first_name).toStrictEqual(fakeAccount.first_name)
+		expect(account.last_name).toStrictEqual(fakeAccount.last_name)
 
-			done()
-		})
+		done()
 	})
 })

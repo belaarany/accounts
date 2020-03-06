@@ -23,8 +23,8 @@ describe("Application REST", () => {
 		done()
 	})
 
-	test("Create an application", done => {
-		Axios({
+	test("Create an application", async done => {
+		let postResponse = await Axios({
 			url: `http://localhost:${port}/applications`,
 			method: "post",
 			headers: {
@@ -32,115 +32,91 @@ describe("Application REST", () => {
 			},
 			data: fakeApplication,
 		})
-		.then((response) => {
-			let data = response.data
 
-			expect(Object.keys(data)).toHaveLength(10)
+		expect(Object.keys(postResponse.data)).toHaveLength(10)
 
-			expect(data).toHaveProperty("id")
-			expect(data).toHaveProperty("kind")
-			expect(data).toHaveProperty("etag")
-			expect(data).toHaveProperty("name")
-			expect(data).toHaveProperty("client_id")
-			expect(data).toHaveProperty("client_secret")
-			expect(data).toHaveProperty("home_url")
-			expect(data).toHaveProperty("callback_url")
-			expect(data).toHaveProperty("created_at")
-			expect(data).toHaveProperty("updated_at")
+		expect(postResponse.data).toHaveProperty("id")
+		expect(postResponse.data).toHaveProperty("kind")
+		expect(postResponse.data).toHaveProperty("etag")
+		expect(postResponse.data).toHaveProperty("name")
+		expect(postResponse.data).toHaveProperty("client_id")
+		expect(postResponse.data).toHaveProperty("client_secret")
+		expect(postResponse.data).toHaveProperty("home_url")
+		expect(postResponse.data).toHaveProperty("callback_url")
+		expect(postResponse.data).toHaveProperty("created_at")
+		expect(postResponse.data).toHaveProperty("updated_at")
 
-			expect(data.kind).toStrictEqual("applications.application")
-			expect(data.name).toStrictEqual(fakeApplication.name)
-			expect(data.home_url).toStrictEqual(fakeApplication.homeUrl)
-			expect(data.callback_url).toStrictEqual(fakeApplication.callbackUrl)
+		expect(postResponse.data.kind).toStrictEqual("applications.application")
+		expect(postResponse.data.name).toStrictEqual(fakeApplication.name)
+		expect(postResponse.data.home_url).toStrictEqual(fakeApplication.homeUrl)
+		expect(postResponse.data.callback_url).toStrictEqual(fakeApplication.callbackUrl)
 
-			applicationId = data.id
-			applicationClientId = data.client_id
+		applicationId = postResponse.data.id
+		applicationClientId = postResponse.data.client_id
 
-			done()
-		})
-	})
-
-	test("Fetch the previously created application", done => {
-		Axios({
+		let getResponse = await Axios({
 			url: `http://localhost:${port}/applications/${applicationId}`,
 			method: "get",
 			headers: {
 				"Authorization": `Bearer randomstring`
 			},
 		})
-		.then((response) => {
-			let data = response.data
 
-			expect(Object.keys(data)).toHaveLength(10)
+		expect(Object.keys(getResponse.data)).toHaveLength(10)
 
-			expect(data).toHaveProperty("id")
-			expect(data).toHaveProperty("kind")
-			expect(data).toHaveProperty("etag")
-			expect(data).toHaveProperty("name")
-			expect(data).toHaveProperty("client_id")
-			expect(data).toHaveProperty("client_secret")
-			expect(data).toHaveProperty("home_url")
-			expect(data).toHaveProperty("callback_url")
-			expect(data).toHaveProperty("created_at")
-			expect(data).toHaveProperty("updated_at")
+		expect(getResponse.data).toHaveProperty("id")
+		expect(getResponse.data).toHaveProperty("kind")
+		expect(getResponse.data).toHaveProperty("etag")
+		expect(getResponse.data).toHaveProperty("name")
+		expect(getResponse.data).toHaveProperty("client_id")
+		expect(getResponse.data).toHaveProperty("client_secret")
+		expect(getResponse.data).toHaveProperty("home_url")
+		expect(getResponse.data).toHaveProperty("callback_url")
+		expect(getResponse.data).toHaveProperty("created_at")
+		expect(getResponse.data).toHaveProperty("updated_at")
 
-			expect(data.kind).toStrictEqual("applications.application")
-			expect(data.id).toStrictEqual(applicationId)
-			expect(data.name).toStrictEqual(fakeApplication.name)
-			expect(data.home_url).toStrictEqual(fakeApplication.homeUrl)
-			expect(data.callback_url).toStrictEqual(fakeApplication.callbackUrl)
+		expect(getResponse.data.kind).toStrictEqual("applications.application")
+		expect(getResponse.data.id).toStrictEqual(applicationId)
+		expect(getResponse.data.name).toStrictEqual(fakeApplication.name)
+		expect(getResponse.data.home_url).toStrictEqual(fakeApplication.homeUrl)
+		expect(getResponse.data.callback_url).toStrictEqual(fakeApplication.callbackUrl)
 
-			done()
-		})
-	})
-
-	test("Fetch the partial of the previously created application", done => {
-		Axios({
+		let getPartialResponse = await Axios({
 			url: `http://localhost:${port}/applications/${applicationId}/partial`,
 			method: "get",
 			headers: {
 				"Authorization": `Bearer randomstring`
 			},
 		})
-		.then((response) => {
-			let data = response.data
 
-			expect(Object.keys(data)).toHaveLength(4)
+		expect(Object.keys(getPartialResponse.data)).toHaveLength(4)
 
-			expect(data).toHaveProperty("kind")
-			expect(data).toHaveProperty("name")
-			expect(data).toHaveProperty("home_url")
-			expect(data).toHaveProperty("callback_url")
+		expect(getPartialResponse.data).toHaveProperty("kind")
+		expect(getPartialResponse.data).toHaveProperty("name")
+		expect(getPartialResponse.data).toHaveProperty("home_url")
+		expect(getPartialResponse.data).toHaveProperty("callback_url")
 
-			expect(data.kind).toStrictEqual("applications.application.partial")
-			expect(data.name).toStrictEqual(fakeApplication.name)
-			expect(data.home_url).toStrictEqual(fakeApplication.homeUrl)
-			expect(data.callback_url).toStrictEqual(fakeApplication.callbackUrl)
+		expect(getPartialResponse.data.kind).toStrictEqual("applications.application.partial")
+		expect(getPartialResponse.data.name).toStrictEqual(fakeApplication.name)
+		expect(getPartialResponse.data.home_url).toStrictEqual(fakeApplication.homeUrl)
+		expect(getPartialResponse.data.callback_url).toStrictEqual(fakeApplication.callbackUrl)
 
-			done()
-		})
-	})
-
-	test("Exchange the Client ID to entity ID", done => {
-		Axios({
+		let exchangeClientIdResponse = await Axios({
 			url: `http://localhost:${port}/applications/exchangeClientId/${applicationClientId}`,
 			method: "get",
 			headers: {
 				"Authorization": `Bearer randomstring`
 			},
 		})
-		.then((response) => {
-			let data = response.data
 
-			expect(Object.keys(data)).toHaveLength(2)
+		expect(Object.keys(exchangeClientIdResponse.data)).toHaveLength(2)
 
-			expect(data).toHaveProperty("kind")
-			expect(data).toHaveProperty("id")
+		expect(exchangeClientIdResponse.data).toHaveProperty("kind")
+		expect(exchangeClientIdResponse.data).toHaveProperty("id")
 
-			expect(data.kind).toStrictEqual("applications.application.id")
-			expect(data.id).toStrictEqual(applicationId)
+		expect(exchangeClientIdResponse.data.kind).toStrictEqual("applications.application.id")
+		expect(exchangeClientIdResponse.data.id).toStrictEqual(applicationId)
 
-			done()
-		})
+		done()
 	})
 })
