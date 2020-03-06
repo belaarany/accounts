@@ -7,6 +7,6 @@ variables:
   MYSQL_ROOT_PASSWORD: mysql
 
 connect:
-  image: alphine
+  image: node:latest
   script:
   - echo "SELECT 'OK';" | mysql --user=root --password="$MYSQL_ROOT_PASSWORD" --host=mysql "$MYSQL_DATABASE"
