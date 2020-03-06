@@ -1,12 +1,11 @@
-import { Server } from "~app/server"
-import { App } from "~app/app"
+import * as dotenv from "dotenv"
 import Axios from "axios"
 import Faker from "faker"
 
+dotenv.config()
+
 describe("Accounts REST", () => {
-	let port: number = 8426
-	let app: App
-	let server: Server | null
+	let port: number = parseInt(process.env.APP_PORT)
 
 	let fakeAccount = {
 		identifier: `e2e_${Date.now()}`,
@@ -18,20 +17,11 @@ describe("Accounts REST", () => {
 	let lastCreatedAccountId: string
 
 	beforeAll(done => {
-		app = new App()
-		server = null
-
-		app.bootstrap().then(() => {
-			server = new Server(app)
-			server.listen(port)
-			done()
-		})
+		done()
 	})
 
 	afterAll(done => {
-		server.shutdown().then(() => {
-			done()
-		})
+		done()
 	})
 
 	test("Create an account", done => {
