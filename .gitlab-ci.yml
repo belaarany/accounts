@@ -1,18 +1,22 @@
-image: node:latest
+stages:
+  - test
 
-services:
-  - mysql:latest
+Test:
+  image: node:latest
+  stage: test
+  tags:
+    - linux
+    - mysql
 
-variables:
-  MYSQL_ROOT_PASSWORD: "secret"
+  variables:
+    MYSQL_ROOT_PASSWORD: "secret"
 
-before_script:
-  - apt-get install mysql-client
+  before_script:
+    - apt-get install mysql-client
 
-cache:
-  paths:
-    - node_modules/
+  cache:
+    paths:
+      - node_modules/
 
-test_mysql:
   script:
     - mysql -u root -p"$MYSQL_ROOT_PASSWORD" -h mysql
