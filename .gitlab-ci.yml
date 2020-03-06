@@ -4,9 +4,13 @@ stages:
 Test:
   image: node:latest
   stage: test
+  
   tags:
     - linux
     - mysql
+
+  services:
+    - mysql:latest
 
   variables:
     MYSQL_ROOT_PASSWORD: "secret"
