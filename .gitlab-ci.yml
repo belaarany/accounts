@@ -7,6 +7,6 @@ variables:
   MYSQL_ROOT_PASSWORD: mysql
 
 connect:
-  image: mysql
+  image: alphine
   script:
   - echo "SELECT 'OK';" | mysql --user=root --password="$MYSQL_ROOT_PASSWORD" --host=mysql "$MYSQL_DATABASE"
