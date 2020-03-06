@@ -7,8 +7,7 @@ variables:
   MYSQL_ROOT_PASSWORD: "secret"
 
 before_script:
-  - apk update
-  - apk add mysql-client
+  - apt-get install mysql-client
 
 cache:
   paths:
