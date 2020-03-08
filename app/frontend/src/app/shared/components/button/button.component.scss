@@ -1,0 +1,29 @@
+@import "support/@all";
+
+.button {
+	font: {
+		family: $font__heading;
+		weight: 600;
+		size: 13px;
+	}
+	text: {
+		transform: uppercase;
+	}
+	outline: none;
+	border: none;
+	color: #f6f6f6;
+	background-color: $color__primary;
+	padding: 9px 20px;
+	border-radius: $radius__global;
+	transition: all 0.1s ease;
+	cursor: pointer;
+
+	&:hover {
+		background-color: lighten($color__primary, 5%);
+		box-shadow: 0 1px 3px transparentize($color__primary, 0.25);
+		text-shadow: 0 0 1px white;
+	}
+	&:active {
+		background-color: darken($color__primary, 5%);
+	}
+}

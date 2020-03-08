@@ -1,0 +1,35 @@
+<div
+	class="input"
+	[class.input--has-value]="hasValue === true"
+	[class.input--is-focused]="isFocused === true"
+	[class.input--block]="block === true"
+	[class.input--fluid]="fluid === true"
+	[class.input--has-error]="hasError === true"
+	[class.input--size-small]="size === 'small'"
+	[class.input--size-medium]="size === 'medium'"
+>
+	<div class="input__container">
+		<div class="input__wrapper">
+			<input
+				#input
+				class="input__interaction"
+				spellcheck="false"
+				[(ngModel)]="value"
+				[formControlName]="controlName"
+				[type]="type"
+				(blur)="onBlur()"
+				(focus)="onFocus()"
+			/>
+
+			<div class="input__focus-border"></div>
+			<span class="input__label">{{ label }}</span>
+		</div>
+
+		<div *ngIf="hasError === true" class="input__errors">
+			<div *ngFor="let error of errors" class="error">
+				<fa-icon [icon]="faIcons.faExclamationCircle" class="error__icon"></fa-icon>
+				<span class="error__text">{{ error }}</span>
+			</div>
+		</div>
+	</div>
+</div>

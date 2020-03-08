@@ -1,0 +1,10 @@
+.layout {
+	&__input {
+		margin-bottom: 20px;
+	}
+
+	&__action {
+		display: flex;
+		justify-content: flex-end;
+	}
+}

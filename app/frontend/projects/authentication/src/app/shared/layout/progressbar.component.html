@@ -1,0 +1,9 @@
+<div
+	class="progressbar"
+	[class.progressbar--is-loading]="isFetching === true"
+	[class.progressbar--not-loading]="isFetching === false"
+>
+	<div class="progressbar__line"></div>
+	<div *ngIf="isFetching" class="progressbar__subline progressbar__subline--increase"></div>
+	<div *ngIf="isFetching" class="progressbar__subline progressbar__subline--decrease"></div>
+</div>

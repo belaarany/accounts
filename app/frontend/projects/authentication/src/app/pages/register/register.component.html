@@ -1,0 +1,78 @@
+<layout-authbox>
+	<div authbox-target="interaction">
+		<form [formGroup]="form" (ngSubmit)="formSubmit($event)">
+			<div class="layout">
+				<div class="layout__inputs">
+					<div class="inputs__row">
+						<div class="inputs__input">
+							<component-input
+								[errors]="authErrors"
+								controlName="firstName"
+								label="First name"
+								size="small"
+								block
+								autofocus
+							></component-input>
+						</div>
+
+						<div class="inputs__input">
+							<component-input
+								[errors]="authErrors"
+								controlName="lastName"
+								label="Last name"
+								size="small"
+								block
+							></component-input>
+						</div>
+					</div>
+
+					<div class="inputs__row">
+						<div class="inputs__input">
+							<component-input
+								[errors]="authErrors"
+								controlName="emailAddress"
+								label="Email address"
+								size="small"
+								block
+								fluid
+							></component-input>
+						</div>
+					</div>
+				</div>
+				<div class="layout__inputs">
+					<div class="inputs__row">
+						<div class="inputs__input">
+							<component-input
+								[errors]="authErrors"
+								controlName="password"
+								label="Password"
+								size="small"
+								type="password"
+								block
+								fluid
+							></component-input>
+						</div>
+					</div>
+
+					<div class="inputs__row">
+						<div class="inputs__input">
+							<component-input
+								[errors]="authErrors"
+								controlName="passwordConfirm"
+								label="Confirm password"
+								size="small"
+								type="password"
+								block
+								fluid
+							></component-input>
+						</div>
+					</div>
+				</div>
+
+				<div class="layout__action">
+					<component-button type="submit">Register</component-button>
+				</div>
+			</div>
+		</form>
+	</div>
+</layout-authbox>

@@ -1,0 +1,23 @@
+{
+	"compileOnSave": false,
+	"compilerOptions": {
+		"outDir": "./dist/out-tsc",
+		"sourceMap": true,
+		"declaration": false,
+		"module": "es2015",
+		"moduleResolution": "node",
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"importHelpers": true,
+		"target": "es5",
+		"typeRoots": ["node_modules/@types"],
+		"lib": ["es2018", "dom"],
+		"baseUrl": "./",
+		"paths": {
+			"@root/env": ["src/environments/environment.ts"],
+			"@authentication/env": ["projects/authentication/src/environments/environment.ts"],
+			"@root/*": ["src/app/*"],
+			"@authentication/*": ["projects/authentication/src/app/*"]
+		}
+	}
+}

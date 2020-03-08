@@ -1,0 +1,25 @@
+<div class="authbox">
+	<div class="authbox__container">
+		<div class="authbox__header">
+			<layout-progressbar></layout-progressbar>
+		</div>
+
+		<div class="authbox__representation" [class.representation--is-loading]="isFetching === true">
+			<div class="representation__app-title">Accounts</div>
+
+			<div class="representation__application-info">
+				<ng-content select="[authbox-target='application-info']"></ng-content>
+			</div>
+
+			<div class="representation__account-info">
+				<ng-content select="[authbox-target='account-info']"></ng-content>
+			</div>
+
+			<div class="representation__interaction">
+				<ng-content select="[authbox-target='interaction']"></ng-content>
+			</div>
+		</div>
+
+		<div class="authbox__footer">Privacy policy</div>
+	</div>
+</div>

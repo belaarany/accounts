@@ -1,0 +1,351 @@
+{
+	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+	"version": 1,
+	"newProjectRoot": "projects",
+	"projects": {
+		"GOabelaAccountsClient": {
+			"root": "",
+			"sourceRoot": "src",
+			"projectType": "application",
+			"prefix": "app",
+			"schematics": {
+				"@schematics/angular:component": {
+					"style": "sass"
+				}
+			},
+			"architect": {
+				"build": {
+					"builder": "@angular-devkit/build-angular:browser",
+					"options": {
+						"outputPath": "dist/GOabelaAccountsClient",
+						"index": "src/index.html",
+						"main": "src/main.ts",
+						"polyfills": "src/polyfills.ts",
+						"tsConfig": "src/tsconfig.app.json",
+						"assets": ["src/favicon.ico", "src/assets"],
+						"styles": ["src/styles.scss"],
+						"scripts": [],
+						"es5BrowserSupport": true
+					},
+					"configurations": {
+						"production": {
+							"fileReplacements": [
+								{
+									"replace": "src/environments/environment.ts",
+									"with": "src/environments/environment.prod.ts"
+								}
+							],
+							"optimization": true,
+							"outputHashing": "all",
+							"sourceMap": false,
+							"extractCss": true,
+							"namedChunks": false,
+							"aot": true,
+							"extractLicenses": true,
+							"vendorChunk": false,
+							"buildOptimizer": true,
+							"budgets": [
+								{
+									"type": "initial",
+									"maximumWarning": "2mb",
+									"maximumError": "5mb"
+								}
+							]
+						}
+					}
+				},
+				"serve": {
+					"builder": "@angular-devkit/build-angular:dev-server",
+					"options": {
+						"browserTarget": "GOabelaAccountsClient:build"
+					},
+					"configurations": {
+						"production": {
+							"browserTarget": "GOabelaAccountsClient:build:production"
+						}
+					}
+				},
+				"extract-i18n": {
+					"builder": "@angular-devkit/build-angular:extract-i18n",
+					"options": {
+						"browserTarget": "GOabelaAccountsClient:build"
+					}
+				},
+				"test": {
+					"builder": "@angular-devkit/build-angular:karma",
+					"options": {
+						"main": "src/test.ts",
+						"polyfills": "src/polyfills.ts",
+						"tsConfig": "src/tsconfig.spec.json",
+						"karmaConfig": "src/karma.conf.js",
+						"styles": ["src/styles.scss"],
+						"scripts": [],
+						"assets": ["src/favicon.ico", "src/assets"]
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**"]
+					}
+				}
+			}
+		},
+		"GOabelaAccountsClient-e2e": {
+			"root": "e2e/",
+			"projectType": "application",
+			"prefix": "",
+			"architect": {
+				"e2e": {
+					"builder": "@angular-devkit/build-angular:protractor",
+					"options": {
+						"protractorConfig": "e2e/protractor.conf.js",
+						"devServerTarget": "GOabelaAccountsClient:serve"
+					},
+					"configurations": {
+						"production": {
+							"devServerTarget": "GOabelaAccountsClient:serve:production"
+						}
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": "e2e/tsconfig.e2e.json",
+						"exclude": ["**/node_modules/**"]
+					}
+				}
+			}
+		},
+		"authentication": {
+			"root": "projects/authentication/",
+			"sourceRoot": "projects/authentication/src",
+			"projectType": "application",
+			"prefix": "app",
+			"schematics": {},
+			"architect": {
+				"build": {
+					"builder": "@angular-devkit/build-angular:browser",
+					"options": {
+						"outputPath": "dist/authentication",
+						"index": "projects/authentication/src/index.html",
+						"main": "projects/authentication/src/main.ts",
+						"polyfills": "projects/authentication/src/polyfills.ts",
+						"tsConfig": "projects/authentication/tsconfig.app.json",
+						"assets": ["projects/authentication/src/favicon.ico", "projects/authentication/src/assets"],
+						"styles": ["projects/authentication/src/styles.scss"],
+						"scripts": [],
+						"es5BrowserSupport": true,
+						"stylePreprocessorOptions": {
+							"includePaths": ["src/assets/styles"]
+						}
+					},
+					"configurations": {
+						"production": {
+							"fileReplacements": [
+								{
+									"replace": "projects/authentication/src/environments/environment.ts",
+									"with": "projects/authentication/src/environments/environment.prod.ts"
+								}
+							],
+							"optimization": true,
+							"outputHashing": "all",
+							"sourceMap": false,
+							"extractCss": true,
+							"namedChunks": false,
+							"aot": true,
+							"extractLicenses": true,
+							"vendorChunk": false,
+							"buildOptimizer": true,
+							"budgets": [
+								{
+									"type": "initial",
+									"maximumWarning": "2mb",
+									"maximumError": "5mb"
+								}
+							]
+						}
+					}
+				},
+				"serve": {
+					"builder": "@angular-devkit/build-angular:dev-server",
+					"options": {
+						"browserTarget": "authentication:build"
+					},
+					"configurations": {
+						"production": {
+							"browserTarget": "authentication:build:production"
+						}
+					}
+				},
+				"extract-i18n": {
+					"builder": "@angular-devkit/build-angular:extract-i18n",
+					"options": {
+						"browserTarget": "authentication:build"
+					}
+				},
+				"test": {
+					"builder": "@angular-devkit/build-angular:karma",
+					"options": {
+						"main": "projects/authentication/src/test.ts",
+						"polyfills": "projects/authentication/src/polyfills.ts",
+						"tsConfig": "projects/authentication/tsconfig.spec.json",
+						"karmaConfig": "projects/authentication/karma.conf.js",
+						"styles": ["projects/authentication/src/styles.css"],
+						"scripts": [],
+						"assets": ["projects/authentication/src/favicon.ico", "projects/authentication/src/assets"]
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": [
+							"projects/authentication/tsconfig.app.json",
+							"projects/authentication/tsconfig.spec.json"
+						],
+						"exclude": ["**/node_modules/**"]
+					}
+				}
+			}
+		},
+		"authentication-e2e": {
+			"root": "projects/authentication-e2e/",
+			"projectType": "application",
+			"prefix": "",
+			"architect": {
+				"e2e": {
+					"builder": "@angular-devkit/build-angular:protractor",
+					"options": {
+						"protractorConfig": "projects/authentication-e2e/protractor.conf.js",
+						"devServerTarget": "authentication:serve"
+					},
+					"configurations": {
+						"production": {
+							"devServerTarget": "authentication:serve:production"
+						}
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": "projects/authentication-e2e/tsconfig.e2e.json",
+						"exclude": ["**/node_modules/**"]
+					}
+				}
+			}
+		},
+		"myaccount": {
+			"root": "projects/myaccount/",
+			"sourceRoot": "projects/myaccount/src",
+			"projectType": "application",
+			"prefix": "app",
+			"schematics": {},
+			"architect": {
+				"build": {
+					"builder": "@angular-devkit/build-angular:browser",
+					"options": {
+						"outputPath": "dist/myaccount",
+						"index": "projects/myaccount/src/index.html",
+						"main": "projects/myaccount/src/main.ts",
+						"polyfills": "projects/myaccount/src/polyfills.ts",
+						"tsConfig": "projects/myaccount/tsconfig.app.json",
+						"assets": ["projects/myaccount/src/favicon.ico", "projects/myaccount/src/assets"],
+						"styles": ["projects/myaccount/src/styles.css"],
+						"scripts": [],
+						"es5BrowserSupport": true
+					},
+					"configurations": {
+						"production": {
+							"fileReplacements": [
+								{
+									"replace": "projects/myaccount/src/environments/environment.ts",
+									"with": "projects/myaccount/src/environments/environment.prod.ts"
+								}
+							],
+							"optimization": true,
+							"outputHashing": "all",
+							"sourceMap": false,
+							"extractCss": true,
+							"namedChunks": false,
+							"aot": true,
+							"extractLicenses": true,
+							"vendorChunk": false,
+							"buildOptimizer": true,
+							"budgets": [
+								{
+									"type": "initial",
+									"maximumWarning": "2mb",
+									"maximumError": "5mb"
+								}
+							]
+						}
+					}
+				},
+				"serve": {
+					"builder": "@angular-devkit/build-angular:dev-server",
+					"options": {
+						"browserTarget": "myaccount:build"
+					},
+					"configurations": {
+						"production": {
+							"browserTarget": "myaccount:build:production"
+						}
+					}
+				},
+				"extract-i18n": {
+					"builder": "@angular-devkit/build-angular:extract-i18n",
+					"options": {
+						"browserTarget": "myaccount:build"
+					}
+				},
+				"test": {
+					"builder": "@angular-devkit/build-angular:karma",
+					"options": {
+						"main": "projects/myaccount/src/test.ts",
+						"polyfills": "projects/myaccount/src/polyfills.ts",
+						"tsConfig": "projects/myaccount/tsconfig.spec.json",
+						"karmaConfig": "projects/myaccount/karma.conf.js",
+						"styles": ["projects/myaccount/src/styles.css"],
+						"scripts": [],
+						"assets": ["projects/myaccount/src/favicon.ico", "projects/myaccount/src/assets"]
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": ["projects/myaccount/tsconfig.app.json", "projects/myaccount/tsconfig.spec.json"],
+						"exclude": ["**/node_modules/**"]
+					}
+				}
+			}
+		},
+		"myaccount-e2e": {
+			"root": "projects/myaccount-e2e/",
+			"projectType": "application",
+			"prefix": "",
+			"architect": {
+				"e2e": {
+					"builder": "@angular-devkit/build-angular:protractor",
+					"options": {
+						"protractorConfig": "projects/myaccount-e2e/protractor.conf.js",
+						"devServerTarget": "myaccount:serve"
+					},
+					"configurations": {
+						"production": {
+							"devServerTarget": "myaccount:serve:production"
+						}
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": "projects/myaccount-e2e/tsconfig.e2e.json",
+						"exclude": ["**/node_modules/**"]
+					}
+				}
+			}
+		}
+	},
+	"defaultProject": "GOabelaAccountsClient"
+}

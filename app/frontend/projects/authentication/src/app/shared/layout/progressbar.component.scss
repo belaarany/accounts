@@ -1,0 +1,86 @@
+@import "support/@all";
+
+.progressbar {
+	$progressbar: &;
+
+	position: absolute;
+	width: 100%;
+	height: 5px;
+	overflow-x: hidden;
+
+	&--is-loading {
+		#{$progressbar} {
+			&__line {
+				position: absolute;
+				background-color: lighten($color__primary, 30%);
+				width: 200%;
+				height: 5px;
+			}
+
+			&__subline {
+				position: absolute;
+				background-color: $color__primary;
+				height: 5px;
+
+				&--increase {
+					animation: progressbar__increase 2s infinite;
+				}
+
+				&--decrease {
+					animation: progressbar__decrease 2s 0.5s infinite;
+				}
+			}
+		}
+	}
+	&--not-loading {
+		#{$progressbar} {
+			&__line {
+				background-color: $color__primary;
+				width: 100%;
+				height: 5px;
+			}
+		}
+	}
+
+	&__line {
+		position: absolute;
+		background-color: lighten($color__primary, 30%);
+		width: 200%;
+		height: 5px;
+	}
+
+	&__subline {
+		position: absolute;
+		background-color: $color__primary;
+		height: 5px;
+
+		&--increase {
+			animation: progressbar__increase 2s infinite;
+		}
+
+		&--decrease {
+			animation: progressbar__decrease 2s 0.5s infinite;
+		}
+	}
+}
+
+@keyframes progressbar__increase {
+	from {
+		left: -5%;
+		width: 5%;
+	}
+	to {
+		left: 130%;
+		width: 100%;
+	}
+}
+@keyframes progressbar__decrease {
+	from {
+		left: -80%;
+		width: 80%;
+	}
+	to {
+		left: 110%;
+		width: 10%;
+	}
+}

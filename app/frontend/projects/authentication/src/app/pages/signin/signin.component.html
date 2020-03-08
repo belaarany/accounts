@@ -1,0 +1,63 @@
+<layout-authbox>
+	<div authbox-target="application-info">
+		<div *ngIf="currentStep !== null && isOauth === true" class="application-info__ng-content-inner">
+			Continue to <a [href]="applicationInfoText.homeUrl" target="_blank">{{ applicationInfoText.name }}</a>
+		</div>
+	</div>
+
+	<div authbox-target="account-info">
+		<div *ngIf="currentStep !== null" class="account-info__ng-content-inner">
+			<div *ngIf="accountPartial !== null" class="account-info__arrow" (click)="onAccountInfoBackClick()">
+				<fa-icon [icon]="faIcons.faArrowLeft"></fa-icon>
+			</div>
+
+			<div class="account-info__text">
+				<div class="account-info__primary" [innerHTML]="accountInfoText.primary"></div>
+				<div class="account-info__secondary" [innerHTML]="accountInfoText.secondary"></div>
+			</div>
+		</div>
+	</div>
+
+	<div authbox-target="interaction">
+		<form [formGroup]="form" (ngSubmit)="formSubmit($event)">
+			<div class="layout">
+				<div *ngIf="currentStep === 'IDENTIFIER'">
+					<div class="layout__input">
+						<component-input
+							[errors]="authErrors"
+							[onFocusRequest]="onFocusRequest$"
+							controlName="input"
+							label="Identifier or email address"
+							block
+							fluid
+							autofocus
+						></component-input>
+					</div>
+
+					<div class="layout__action">
+						<component-button type="submit">Next</component-button>
+					</div>
+				</div>
+
+				<div *ngIf="currentStep === 'PASSWORD'">
+					<div class="layout__input">
+						<component-input
+							[errors]="authErrors"
+							[onFocusRequest]="onFocusRequest$"
+							type="password"
+							controlName="input"
+							label="Super-secret password"
+							block
+							fluid
+							autofocus
+						></component-input>
+					</div>
+
+					<div class="layout__action">
+						<component-button type="submit">Sign in</component-button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</layout-authbox>
